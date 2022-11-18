@@ -25,20 +25,34 @@ test_data_df = pd.read_csv(os.path.join(data_path, 'test_data.csv'))
 # print(len(train_data_df))
 # print(len(train_data_df[train_data_df.label == 'England']))
 
-train_data_df.loc[train_data_df["label"]=='England'] = 1
-train_data_df.loc[train_data_df["label"]=='Scotland'] = 2
-train_data_df.loc[train_data_df["label"]=='Ireland'] = 3
+train_data_df.loc[train_data_df['label']=='England', 'label'] = 1
+train_data_df.loc[train_data_df['label']=='Scotland', 'label'] = 2
+train_data_df.loc[train_data_df['label']=='Ireland', 'label'] = 3
 
 df_x = train_data_df['language']
 df_y = train_data_df['text']
 df_z = train_data_df['label']
 
-print(df_y)
+cv = CountVectorizer()
+x_train, x_test, y_train, y_test = train_test_split(df_y,df_z, test_size=0.35, random_state=4)
+x_train_cv = cv.fit_transform(x_train)
+a = x_train_cv.toarray()
+print(a)
+
+
+
+
 
 sys.exit()
 
+
+
 cv = CountVectorizer()
-x_train, x_test, y_train, y_test = train_test_split(test_data_df,test_data_df, test_size=0.2, random_state=4)
+#x_train, x_test, y_train, y_test = train_test_split(test_data_df,test_data_df, test_size=0.2, random_state=4)
+nr_test = 13800
+nr_ramase = len(data) - nr_test
+nr_valid = int(15 / 100 * nr_ramase)
+nr_train = nr_ramase - nr_valid
 x_train
 
 

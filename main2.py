@@ -48,25 +48,10 @@ def proceseaza(text):
     return text_in_cuvinte
 
 
-
-
-def vectorize(text):
-    vectorizer = CountVectorizer(stop_words='english', ngram_range=(2, 2))
-    print(vectorizer.get_feature_names())
-    #  X = vectorizer.fit_transform(text)
-
-    # df_bow_sklearn = pd.DataFrame(X.toarray(), columns=vectorizer.get_feature_names())
-    # df_bow_sklearn.head()
-    print(vectorizer)
-    return vectorizer
-
-
 # cuvintele rezultate din functia de preprocesare:
 exemple_italian = train_data_df[train_data_df['language'] == 'italiano']
-
 text_italian = exemple_italian['text'].iloc[0]
 data = train_data_df['text'].apply(lambda text: proceseaza(text))
-vectorize(data)
 nr_test = 13800
 nr_ramase = len(data) - nr_test
 nr_valid = int(15 / 100 * nr_ramase)
