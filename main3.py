@@ -1,3 +1,4 @@
+import csv
 import os
 import re
 import numpy as np
@@ -12,19 +13,42 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.naive_bayes import BernoulliNB
 from sklearn.svm import SVC
 from sklearn.feature_extraction.text import CountVectorizer
-
+from sklearn.model_selection import train_test_split
+import sys
 nltk.download('punkt')
-
 import pandas as pd
 
 data_path = '.'
 train_data_df = pd.read_csv(os.path.join(data_path, 'train_data.csv'))
 test_data_df = pd.read_csv(os.path.join(data_path, 'test_data.csv'))
+# print(train_data_df.head())
+# print(len(train_data_df))
+# print(len(train_data_df[train_data_df.label == 'England']))
+
+train_data_df.loc[train_data_df["label"]=='England'] = 1
+train_data_df.loc[train_data_df["label"]=='Scotland'] = 2
+train_data_df.loc[train_data_df["label"]=='Ireland'] = 3
+
+df_x = train_data_df['language']
+df_y = train_data_df['text']
+df_z = train_data_df['label']
+
+print(df_y)
+
+sys.exit()
+
+cv = CountVectorizer()
+x_train, x_test, y_train, y_test = train_test_split(test_data_df,test_data_df, test_size=0.2, random_state=4)
+x_train
+
+
+
 
 etichete_unice = train_data_df['label'].unique()
 label2id = {}
 id2label = {}
 for idx, eticheta in enumerate(etichete_unice):
+
     label2id[eticheta] = idx
     id2label[idx] = eticheta
 
@@ -34,7 +58,8 @@ for eticheta in train_data_df['label']:
     labels.append(label2id[eticheta])
 labels = np.array(labels)
 
-
+#  https://www.youtube.com/watch?v=RZYjsw6P4nI&ab_channel=TheSemicolon
+sys.exit()
 def proceseaza(text):
     text = re.sub("[-.,;:!?\"\'\/()_*=`]", "", text)
 
