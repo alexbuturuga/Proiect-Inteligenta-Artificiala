@@ -39,7 +39,7 @@ def proceseaza(text):
     # text_in_cuvinte = word_tokenize(text)
     list = []
     for word in text_in_cuvinte:
-        if len(word) > 2:
+        if len(word) > 3:
             list.append(word)
     return list
 
@@ -108,6 +108,7 @@ def featurize_multi(texte, id2word):
 
 
 cuvinte_caracteristice = count_most_common(5000, train_data)
+
 word2id, id2word = build_id_word_dicts(cuvinte_caracteristice)
 
 X_train = featurize_multi(data, id2word)
@@ -118,8 +119,7 @@ print(cuvinte_caracteristice)
 
 from sklearn import svm
 
-model = svm.LinearSVC(C=0.1, loss='hinge', dual=True, tol=1e-5, multi_class='crammer_singer', fit_intercept=True,
-                         intercept_scaling=1, class_weight=None, verbose=0, random_state=None, max_iter=3000)
+model = svm.LinearSVC(C=0.1, max_iter=1000)
 #model = MultinomialNB(alpha=0.5,fit_prior=True,class_prior=None)
 
 model.fit(X_train, train_data_df['label'])
