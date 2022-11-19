@@ -12,7 +12,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.naive_bayes import BernoulliNB
 nltk.download('punkt')
 import pandas as pd
-
+import sys
 data_path = '.'
 train_data_df = pd.read_csv(os.path.join(data_path, 'train_data.csv'))
 test_data_df = pd.read_csv(os.path.join(data_path, 'test_data.csv'))
@@ -37,7 +37,11 @@ def proceseaza(text):
     text = text.replace('\n', ' ').strip().lower()
     text_in_cuvinte = text.split(' ')
     # text_in_cuvinte = word_tokenize(text)
-    return text_in_cuvinte
+    list = []
+    for word in text_in_cuvinte:
+        if len(word) > 2:
+            list.append(word)
+    return list
 
 
 # cuvintele rezultate din functia de preprocesare:
@@ -46,6 +50,8 @@ def proceseaza(text):
 # text_italian = exemple_italian['text'].iloc[0]
 data = train_data_df['text'].apply(lambda text: proceseaza(text))
 data2 = test_data_df['text'].apply(lambda text: proceseaza(text))
+
+
 # nr_test = int(35 / 100 * len(train_data_df))
 nr_test = 13900
 nr_ramase = len(data) - nr_test
@@ -84,6 +90,7 @@ def build_id_word_dicts(cuvinte_caracteristice):
     return word2id, id2word
 
 
+
 def featurize(text_preprocesat, id2word):
     ctr = Counter(text_preprocesat)
     features = np.zeros(len(id2word))
@@ -111,7 +118,9 @@ print(cuvinte_caracteristice)
 
 from sklearn import svm
 
-model = svm.LinearSVC(C=0.5)
+model = svm.LinearSVC(C=0.1, loss='hinge', dual=True, tol=1e-5, multi_class='crammer_singer', fit_intercept=True,
+                         intercept_scaling=1, class_weight=None, verbose=0, random_state=None, max_iter=3000)
+#model = MultinomialNB(alpha=0.5,fit_prior=True,class_prior=None)
 
 model.fit(X_train, train_data_df['label'])
 tpreds = model.predict(X_test)

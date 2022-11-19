@@ -122,7 +122,7 @@ max = 0.00;
 
 for i in range(1, 2):
     model = svm.LinearSVC(C=0.1, loss='hinge', dual=True, tol=1e-5, multi_class='crammer_singer', fit_intercept=True,
-                          intercept_scaling=1, class_weight=None, verbose=0, random_state=None, max_iter=100)
+                          intercept_scaling=1, class_weight=None, verbose=0, random_state=None, max_iter=10000)
     model.fit(X_train, train_labels)
 
     vpreds = model.predict(X_valid)
