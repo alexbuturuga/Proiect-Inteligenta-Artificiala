@@ -119,8 +119,8 @@ print(cuvinte_caracteristice)
 
 from sklearn import svm
 
-model = svm.LinearSVC(C=0.1, max_iter=1000)
-#model = MultinomialNB(alpha=0.5,fit_prior=True,class_prior=None)
+#model = svm.LinearSVC(C=0.1, max_iter=1000)
+model = MultinomialNB(alpha=0.5,fit_prior=True,class_prior=None)
 
 model.fit(X_train, train_data_df['label'])
 tpreds = model.predict(X_test)
